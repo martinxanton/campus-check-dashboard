@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.18.36:5050/api/v1',
+  //baseURL: 'http://192.168.18.36:5050/api/v1',
+  baseURL: 'https://campus-check-server.onrender.com/api/v1',
 });
 
 api.interceptors.request.use(

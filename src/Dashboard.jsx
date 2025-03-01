@@ -29,7 +29,7 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  // Transform generalRecords to get entries and exits by date
+  // Agrupamos los registros por fecha
   const recordsByDate = generalRecords.reduce((acc, record) => {
     const date = moment(record.createdAt).format("YYYY-MM-DD");
     if (!acc[date]) {
@@ -57,57 +57,51 @@ function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-gradient-to-r from-gray-900 to-blue-900">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center ">Dashboard</h1>
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold text-white text-center">Dashboard</h1>
+        </header>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-blue-950 shadow-lg rounded-lg p-6  flex flex-col">
-            <h2 className="text-2xl font-semibold mb-4">Resumen General</h2>
+          {/* Tarjeta Resumen General */}
+          <div className="bg-gray-800 shadow-xl rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">Resumen General</h2>
             <DonutChart
               data={dataAssist}
               variant="donut"
               onValueChange={(v) => console.log(v)}
             />
-            <div className=" flex flex-col justify-around grow gap-5 py-10">
-              <div className="flex gap-2 bg-gray-100 p-5 rounded">
-                <span className="material-symbols-rounded text-gray-700">
-                  meeting_room
-                </span>
-                <p className="text-gray-700">
+            <div className="flex flex-col justify-around mt-6 gap-5">
+              <div className="flex items-center gap-2 bg-gray-700 p-5 rounded transition hover:bg-gray-600">
+                <span className="material-symbols-rounded text-gray-300">meeting_room</span>
+                <p className="text-gray-300">
                   Total de registros de entradas:{" "}
-                  {
-                    generalRecords.filter((record) => record.type === "in")
-                      .length
-                  }
+                  {generalRecords.filter((record) => record.type === "in").length}
                 </p>
               </div>
-              <div className="flex gap-2 bg-gray-100 p-5 rounded">
-                <span className="material-symbols-rounded text-gray-700">
-                  door_front
-                </span>
-                <p className="text-gray-700">
+              <div className="flex items-center gap-2 bg-gray-700 p-5 rounded transition hover:bg-gray-600">
+                <span className="material-symbols-rounded text-gray-300">door_front</span>
+                <p className="text-gray-300">
                   Total de registros de salidas:{" "}
-                  {
-                    generalRecords.filter((record) => record.type === "out")
-                      .length
-                  }
+                  {generalRecords.filter((record) => record.type === "out").length}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-blue-950 shadow-lg rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 ">
+          {/* Tarjeta Entradas y Salidas por Puerta */}
+          <div className="bg-gray-800 shadow-xl rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">
               Entradas y Salidas por Puerta
             </h2>
-            <table className="table-auto w-full">
+            <table className="table-auto w-full divide-y divide-gray-700">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left">Puerta</th>
-                  <th className="px-4 py-2 text-left">Entradas</th>
-                  <th className="px-4 py-2 text-left">Salidas</th>
+                  <th className="px-4 py-2 text-left text-gray-300">Puerta</th>
+                  <th className="px-4 py-2 text-left text-gray-300">Entradas</th>
+                  <th className="px-4 py-2 text-left text-gray-300">Salidas</th>
                 </tr>
               </thead>
               <tbody>
@@ -121,14 +115,17 @@ function Dashboard() {
                   ).length;
 
                   return (
-                    <tr key={index} className="bg-gray-50 hover:bg-gray-100">
-                      <td className="border-t px-4 py-2 text-gray-700">
+                    <tr
+                      key={index}
+                      className="transition bg-gray-800 hover:bg-gray-700"
+                    >
+                      <td className="border-t px-4 py-2 text-gray-300">
                         Entrada {gate}
                       </td>
-                      <td className="border-t px-4 py-2 text-gray-700">
+                      <td className="border-t px-4 py-2 text-gray-300">
                         {entered}
                       </td>
-                      <td className="border-t px-4 py-2 text-gray-700">
+                      <td className="border-t px-4 py-2 text-gray-300">
                         {exited}
                       </td>
                     </tr>
@@ -138,34 +135,36 @@ function Dashboard() {
             </table>
           </div>
 
-          <div className="bg-blue-950 shadow-lg rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4">
+          {/* Tarjeta Personal de Seguridad */}
+          <div className="bg-gray-800 shadow-xl rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">
               Personal de Seguridad
             </h2>
-            <table className="table-auto w-full">
+            <table className="table-auto w-full divide-y divide-gray-700">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left ">Nombre</th>
-                  <th className="px-4 py-2 text-left ">
+                  <th className="px-4 py-2 text-left text-gray-300">Nombre</th>
+                  <th className="px-4 py-2 text-left text-gray-300">
                     Asistencias registradas
                   </th>
-                  <th className="px-4 py-2 text-left ">Puerta Asignada</th>
+                  <th className="px-4 py-2 text-left text-gray-300">Puerta Asignada</th>
                 </tr>
               </thead>
               <tbody>
                 {staff.map((person, index) => (
-                  <tr key={index} className="bg-gray-50 hover:bg-gray-100">
-                    <td className="border-t px-4 py-2 text-gray-700">
+                  <tr
+                    key={index}
+                    className="transition bg-gray-800 hover:bg-gray-700"
+                  >
+                    <td className="border-t px-4 py-2 text-gray-300">
                       {person.firstName}
                     </td>
-                    <td className="border-t px-4 py-2 text-gray-700">
-                      {
-                        generalRecords.filter(
-                          (record) => record.staffId === person.id
-                        ).length
-                      }
+                    <td className="border-t px-4 py-2 text-gray-300">
+                      {generalRecords.filter(
+                        (record) => record.staffId === person.id
+                      ).length}
                     </td>
-                    <td className="border-t px-4 py-2 text-gray-700">
+                    <td className="border-t px-4 py-2 text-gray-300">
                       Entrada {person.assignedGate}
                     </td>
                   </tr>
@@ -173,18 +172,19 @@ function Dashboard() {
               </tbody>
             </table>
           </div>
+        </div>
 
-          <div className="bg-blue-950 shadow-lg rounded-lg p-6 col-span-3">
-            <LineChart
-              className="h-80"
-              data={chartData}
-              index="date"
-              categories={["Entradas", "Salidas"]}
-              colors={["indigo", "rose"]}
-              yAxisWidth={60}
-              onValueChange={(v) => console.log(v)}
-            />
-          </div>
+        {/* Gráfico de Línea */}
+        <div className="bg-gray-800 shadow-xl rounded-lg p-6 mt-8">
+          <LineChart
+            className="h-80"
+            data={chartData}
+            index="date"
+            categories={["Entradas", "Salidas"]}
+            colors={["indigo", "rose"]}
+            yAxisWidth={60}
+            onValueChange={(v) => console.log(v)}
+          />
         </div>
       </div>
     </div>

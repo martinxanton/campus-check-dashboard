@@ -11,7 +11,8 @@ function Login({ setIsLoggedIn }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.18.36:5050/api/v1/admin/login', {
+      //const response = await axios.post('http://192.168.18.36:5050/api/v1/admin/login', {
+        const response = await axios.post('https://campus-check-server.onrender.com/api/v1/admin/login', {
         user: username,
         password: password
       });
